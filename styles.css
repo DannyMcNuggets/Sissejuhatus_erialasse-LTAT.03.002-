@@ -1,0 +1,11 @@
+body {
+    background-color: lightgrey; /* Sets the background color to light grey */
+    margin: 0; /* Optional: removes default margin around the body */
+    height: 100vh; /* Optional: ensures body covers the full viewport height */
+}
+
+.main-table {
+    background-color: red; /* Sets the background color of the table to red */
+    width: 100%; /* Optional: Makes the table take full width of its container */
+    color: white; /* Optional: Change text color for better visibility */
+}
