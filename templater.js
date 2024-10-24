@@ -17,6 +17,8 @@ function fetchAndProcessHTML(filepath) {
         filepath = `contents/${nestedFilepath.substring(1)}`;
         return fetchAndProcessHTML(filepath).then(nestedData => {
           element.innerHTML = nestedData; 
+        }).catch(error => {
+          console.error(`Error processing nested HTML for ${nestedFullPath}:`, error);
         });
       });
 
@@ -24,6 +26,9 @@ function fetchAndProcessHTML(filepath) {
         addEventListeners(); // Add button behaviour 
         return tempDiv.innerHTML; // Return the processed HTML
       });
+    })
+    .catch(error => {
+      console.error(`Error in 'fetchAndProcessHTM' fetching ${filepath}:`, error);
     });
 }
 
@@ -34,6 +39,9 @@ function fetchAndInsertHTML(id, filepath, callback = null) {
       document.getElementById(id).innerHTML = data; // Insert the processed HTML
       if (callback) callback(); // Call the addEventListener for buttons if provided
     })
+    .catch(error => {
+      console.error(`Error in 'fetchAndInsertHTML' fetching ${filepath}:`, error);
+    });
 }
 
 // Load the content based on the current URL
