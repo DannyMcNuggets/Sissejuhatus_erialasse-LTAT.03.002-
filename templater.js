@@ -1,16 +1,18 @@
 const GLOBAL_PATH = '~krivko/sissejuhatus/'; // Set according to constant URL
 
-// Recursively fetch and process nested HTML elements
+// Fetch the element and recursivly process nested HTML elements
 function fetchAndProcessHTML(filepath) {
   return fetch(filepath) // Fetch the content of the HTML file, process as promise
+
     .then(response => {
       if (!response.ok) {
         throw new Error(`Failed to load ${filepath}: ${response.statusText}`);
       }
       return response.text(); // Read the response as text
     })
-    .then(data => {
-      const tempDiv = document.createElement('div'); 
+
+    .then(data => { 
+      const tempDiv = document.createElement('div'); // put the HTML from response into a temporary div
       tempDiv.innerHTML = data; 
       const nestedElements = tempDiv.querySelectorAll('[nested-html]');  
       const fetchPromises = Array.from(nestedElements).map(element => { 
@@ -18,7 +20,7 @@ function fetchAndProcessHTML(filepath) {
         return fetchAndProcessHTML(`contents/${nestedFilepath.substring(1)}`).then(nestedData => {
           element.innerHTML = nestedData; 
         }).catch(error => {
-          console.error(`Error processing nested HTML for ${nestedFilepath}:`, error);
+          console.error(`Error in 'data' processing within nested HTML for ${nestedFilepath}:`, error);
         });
       });
 
@@ -27,6 +29,7 @@ function fetchAndProcessHTML(filepath) {
         return tempDiv.innerHTML; // Return the processed HTML
       });
     })
+
     .catch(error => {
       console.error(`Error in 'fetchAndProcessHTML' fetching ${filepath}:`, error);
     });
@@ -46,7 +49,7 @@ function fetchAndInsertHTML(id, filepath, callback = null) {
 
 // Load the content based on the current URL
 function loadContent(callback) {
-  let cleanedPath = window.location.pathname.replace(GLOBAL_PATH, '');
+  let cleanedPath = window.location.pathname.replace(GLOBAL_PATH, ''); // Extract only the needed part from URL
   console.log(`Current URL path is: ${window.location.pathname}`);
   console.log(`Cleaned path is: ${cleanedPath}`);
   const filepath = cleanedPath === '' || cleanedPath === '/' ? 'contents/index.html' 
@@ -54,6 +57,7 @@ function loadContent(callback) {
   fetchAndInsertHTML('content', filepath, callback);
 }
 
+// Find and load all nested HTML elements
 function loadNested() {
   const nestedElements = document.querySelectorAll('[nested-html]');
   nestedElements.forEach(element => {
