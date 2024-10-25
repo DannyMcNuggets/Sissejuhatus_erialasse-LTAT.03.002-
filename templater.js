@@ -1,5 +1,6 @@
-// Recursively fetch and process nested HTML elements
+const GLOBAL_PATH = '~krivko/sissejuhatus/'; // Set according to constant URL
 
+// Recursively fetch and process nested HTML elements
 function fetchAndProcessHTML(filepath) {
   return fetch(filepath) // Fetch the content of the HTML file, process as promise
     .then(response => {
@@ -14,11 +15,10 @@ function fetchAndProcessHTML(filepath) {
       const nestedElements = tempDiv.querySelectorAll('[nested-html]');  
       const fetchPromises = Array.from(nestedElements).map(element => { 
         const nestedFilepath = element.getAttribute('nested-html');
-        filepath = `contents/${nestedFilepath.substring(1)}`;
-        return fetchAndProcessHTML(filepath).then(nestedData => {
+        return fetchAndProcessHTML(`contents/${nestedFilepath.substring(1)}`).then(nestedData => {
           element.innerHTML = nestedData; 
         }).catch(error => {
-          console.error(`Error processing nested HTML for ${nestedFullPath}:`, error);
+          console.error(`Error processing nested HTML for ${nestedFilepath}:`, error);
         });
       });
 
@@ -28,7 +28,7 @@ function fetchAndProcessHTML(filepath) {
       });
     })
     .catch(error => {
-      console.error(`Error in 'fetchAndProcessHTM' fetching ${filepath}:`, error);
+      console.error(`Error in 'fetchAndProcessHTML' fetching ${filepath}:`, error);
     });
 }
 
@@ -46,8 +46,11 @@ function fetchAndInsertHTML(id, filepath, callback = null) {
 
 // Load the content based on the current URL
 function loadContent(callback) {
-  const filepath = window.location.pathname === '/' ? 'contents/home.html' 
-    : `contents/${window.location.pathname.substring(1)}`; // Determine the filepath based on the path
+  let cleanedPath = window.location.pathname.replace(GLOBAL_PATH, '');
+  console.log(`Current URL path is: ${window.location.pathname}`);
+  console.log(`Cleaned path is: ${cleanedPath}`);
+  const filepath = cleanedPath === '' || cleanedPath === '/' ? 'contents/index.html' 
+    : `contents/${cleanedPath}`; // Determine the filepath based on the path
   fetchAndInsertHTML('content', filepath, callback);
 }
 
@@ -55,6 +58,7 @@ function loadNested() {
   const nestedElements = document.querySelectorAll('[nested-html]');
   nestedElements.forEach(element => {
     const nestedFilepath = element.getAttribute('nested-html');
+    console.log(`Nested filepath is: ${nestedFilepath}`);
     const filepath = `contents/${nestedFilepath.substring(1)}`;
     fetchAndProcessHTML(filepath).then(data => {
       element.innerHTML = data; // Finally insert the nested HTML into the element
@@ -63,8 +67,9 @@ function loadNested() {
 }
 
 // Handle new URL 
-function navigateTo(url) {
+function navigateTo(url) { 
   history.pushState(null, '', url); // Update the URL
+  console.log(`Navigating to ${url}`);
   loadContent(addEventListeners); // Load the appropriate content
 }
 
@@ -74,6 +79,7 @@ function addEventListeners() {
   buttons.forEach(button => {
     const targetUrl = button.getAttribute('target-url'); 
     button.addEventListener('click', (event) => {
+      console.log(`Button clicked with target URL: ${targetUrl}`);
       event.preventDefault(); // Prevent the default link behavior. For some reason it works better :/
       navigateTo(targetUrl); // Navigate to the target URL when the button is clicked
     });
@@ -82,6 +88,7 @@ function addEventListeners() {
 
 // Load the header and content when the page loads
 window.addEventListener('DOMContentLoaded', () => {
+  console.log('DOM fully loaded and parsed');
   fetchAndInsertHTML('header', 'header.html', addEventListeners) 
   loadContent(addEventListeners); 
   fetchAndInsertHTML('footer', 'footer.html', addEventListeners); 
