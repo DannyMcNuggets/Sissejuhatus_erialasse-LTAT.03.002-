@@ -1,60 +1,73 @@
-/* Basic reset to avoid default margins/paddings */
+/* Import Google Font - Poppins as an example */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* Basic Styling */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-/* Body styling */
 body {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
-  background-color: #f4f4f4;
-  color: #333;
-  padding: 20px;
+    background-color: #0D1B2A;  /* Dark blue background */
+    color: #E0E5E9;             /* Light text color */
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    transition: all 0.3s ease;
 }
 
-/* Styling for headings */
-h1, h2, h3 {
-  color: #333;
-  margin-bottom: 20px;
+h1, h2, h3, h4, h5, h6 {
+    color: #F4D35E;  /* Warm yellow accent color for headings */
+    margin-bottom: 1rem;
+    font-weight: 600;
 }
 
-/* Paragraph styling */
 p {
-  margin-bottom: 15px;
+    margin-bottom: 1.5rem;
 }
 
-/* Button styling */
-button {
-  background-color: #007BFF;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-/* Simple card container */
-.card {
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  padding: 20px;
-  margin-bottom: 20px;
-}
-
-/* Links styling */
+/* Links */
 a {
-  color: #007BFF;
-  text-decoration: none;
+    color: #5BC0EB;    /* Soft blue accent for links */
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 a:hover {
-  text-decoration: underline;
+    color: #F4D35E;    /* Yellow accent on hover */
 }
+
+/* Buttons */
+button, .btn {
+    background-color: #1B263B;
+    color: #E0E5E9;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+button:hover, .btn:hover {
+    background-color: #5BC0EB;
+}
+
+/* Containers */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+/* Card Style */
+.card {
+    background-color: #1B263B;  /* Slightly lighter than body */
+    color: #E0E5E9;
+    border-radius: 8px;
+    padding: 1.5rem;
+   
