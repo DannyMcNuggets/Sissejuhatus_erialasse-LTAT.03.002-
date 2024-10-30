@@ -1,4 +1,4 @@
-const GLOBAL_PATH = '~krivko/sissejuhatus/'; // Set according to constant URL
+const GLOBAL_PATH = '~krivko/sissejuhatus/'; // set according to constant URL
 
 // Fetch the element and recursivly process nested HTML elements
 function fetchAndProcessHTML(filepath) {
@@ -14,10 +14,11 @@ function fetchAndProcessHTML(filepath) {
     .then(data => { 
       const tempDiv = document.createElement('div'); // put the HTML from response into a temporary div
       tempDiv.innerHTML = data; 
-      const nestedElements = tempDiv.querySelectorAll('[nested-html]');  
+      const nestedElements = tempDiv.querySelectorAll('[nested-html]'); 
+       
       const fetchPromises = Array.from(nestedElements).map(element => { 
         const nestedFilepath = element.getAttribute('nested-html');
-        return fetchAndProcessHTML(`contents/${nestedFilepath.substring(1)}`).then(nestedData => {
+        return fetchAndProcessHTML(`contents/${nestedFilepath.substring(1)}`).then(nestedData => { 
           element.innerHTML = nestedData; 
         }).catch(error => {
           console.error(`Error in 'data' processing within nested HTML for ${nestedFilepath}:`, error);
