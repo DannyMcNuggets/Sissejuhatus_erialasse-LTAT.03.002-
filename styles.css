@@ -1,73 +1,81 @@
-/* Import Google Font - Poppins as an example */
+/* Import Google Font (optional) */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-/* Basic Styling */
+/* Font-face for local font files (if you have a custom font file) */
+/* Uncomment and update the path if using a local font file */
+/*
+@font-face {
+    font-family: 'CustomFont';
+    src: url('path/to/MyFont.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+*/
+
+/* Base Styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
 }
 
 body {
-    background-color: #0D1B2A;  /* Dark blue background */
-    color: #E0E5E9;             /* Light text color */
-    font-size: 16px;
-    line-height: 1.6;
-    overflow-x: hidden;
-    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif; /* Change to 'CustomFont' if using a local font */
+    background-color: #0d1b2a; /* Dark blue background */
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    padding: 20px;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    color: #F4D35E;  /* Warm yellow accent color for headings */
-    margin-bottom: 1rem;
+/* Headings */
+h1 {
+    font-size: 2.5em;
     font-weight: 600;
+    margin-bottom: 0.5em;
+    color: #e0e1dd;
 }
 
 p {
-    margin-bottom: 1.5rem;
+    font-size: 1.2em;
+    font-weight: 300;
+    max-width: 600px;
+    color: #c5c6c7;
 }
 
-/* Links */
-a {
-    color: #5BC0EB;    /* Soft blue accent for links */
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-a:hover {
-    color: #F4D35E;    /* Yellow accent on hover */
-}
-
-/* Buttons */
-button, .btn {
-    background-color: #1B263B;
-    color: #E0E5E9;
-    padding: 0.75rem 1.5rem;
+/* Button Styling (Optional) */
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: 400;
+    color: #0d1b2a;
+    background-color: #e0e1dd;
     border: none;
-    border-radius: 4px;
-    font-size: 1rem;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-button:hover, .btn:hover {
-    background-color: #5BC0EB;
+button:hover {
+    background-color: #a9b7c6;
 }
 
-/* Containers */
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem 0;
-}
+/* Responsive Styling */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2em;
+    }
 
-/* Card Style */
-.card {
-    background-color: #1B263B;  /* Slightly lighter than body */
-    color: #E0E5E9;
-    border-radius: 8px;
-    padding: 1.5rem;
-   
+    p {
+        font-size: 1em;
+    }
+
+    button {
+        font-size: 0.9em;
+        padding: 8px 16px;
+    }
+}
