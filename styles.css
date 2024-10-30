@@ -24,12 +24,8 @@ body {
     background-color: #0d1b2a; /* Dark blue background */
     color: #ffffff;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    text-align: center;
-    padding: 20px;
+	flex-direction: column;
+	min-height: 100vh; 
 }
 
 /* Headings */
@@ -78,4 +74,56 @@ button:hover {
         font-size: 0.9em;
         padding: 8px 16px;
     }
+}
+
+.container {
+    display: flex;
+    flex-direction: row; 
+}
+
+.text-column {
+    flex: 2; 
+    padding: 10px;
+}
+
+.button-column {
+    flex: 1; 
+    display: flex;
+    flex-direction: column; 
+    gap: 10px; 
+}
+
+button {
+    padding: 10px;
+    width: 100%;
+}
+
+@media (max-width: 600px) {
+    .container {
+        flex-direction: column; 
+    }
+    
+    .text-column, .button-column {
+        flex: 1; 
+    }
+}
+
+#header {
+	padding: 20px;
+	text-align: left;
+}
+
+#content {
+	flex: 1; 
+	display: flex;
+	justify-content: center;
+    flex-direction: column;
+	align-items: center; 
+	padding: 20px;
+	text-align: center;
+}
+
+#footer {
+	padding: 20px;
+	text-align: center;
 }
