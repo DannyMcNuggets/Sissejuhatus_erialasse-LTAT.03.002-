@@ -43,39 +43,6 @@ p {
     color: #c5c6c7;
 }
 
-/* Button Styling (Optional) */
-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 1em;
-    font-weight: 400;
-    color: #0d1b2a;
-    background-color: #e0e1dd;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #a9b7c6;
-}
-
-/* Responsive Styling */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2em;
-    }
-
-    p {
-        font-size: 1em;
-    }
-
-    button {
-        font-size: 0.9em;
-        padding: 8px 16px;
-    }
-}
-
 .container {
     display: flex;
     flex-direction: row; 
@@ -93,18 +60,43 @@ button:hover {
     gap: 10px; 
 }
 
-button {
-    padding: 10px;
+.our_button{
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: 400;
     width: 100%;
+    color: #0d1b2a;
+    background-color: #e0e1dd;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-@media (max-width: 600px) {
+.our_button:hover {
+    background-color: #a9b7c6;
+}
+
+@media (max-width: 768px) {
     .container {
-        flex-direction: column; 
+        flex-direction: column; /* collapse row into column on narrow screen */
     }
     
     .text-column, .button-column {
         flex: 1; 
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    p {
+        font-size: 1em;
+    }
+
+    .our_button {
+        font-size: 0.9em;
+        padding: 8px 16px;
     }
 }
 
