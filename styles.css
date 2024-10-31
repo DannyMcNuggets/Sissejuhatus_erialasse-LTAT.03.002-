@@ -36,7 +36,7 @@ h1 {
     color: #e0e1dd;
 }
 
-p {
+.page_text{
     font-size: 1.2em;
     font-weight: 300;
     max-width: 600px;
