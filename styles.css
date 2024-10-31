@@ -81,6 +81,14 @@ h1 {
     background-color: #a9b7c6;
 }
 
+.footer_text{
+    margin: 0; 
+    line-height: 1.5;
+    font-size: 0.875em;
+    color: #6c757d; 
+    font-weight: 300;
+}
+
 @media (max-width: 768px) {
     .container {
         flex-direction: column; /* collapse row into column on narrow screen */
@@ -121,5 +129,5 @@ h1 {
 
 #footer {
 	padding: 20px;
-	text-align: left;
+	text-align: center;
 }
