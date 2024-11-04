@@ -108,12 +108,12 @@ button {
     }
 }
 
-#header {
+.header {
 	padding: 20px;
 	text-align: left;
 }
 
-#content {
+.content {
 	flex: 1; 
 	display: flex;
 	justify-content: center;
@@ -123,7 +123,7 @@ button {
 	text-align: center;
 }
 
-#footer {
+.footer {
 	padding: 20px;
 	text-align: center;
 }
