@@ -1,1 +1,13 @@
-<p>this is just a simple footer</p>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>© <span id="year"></span> Your Company. All rights reserved.</p>
+            <p>Built with care and dedication. Powered by beautiful design.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Current Year -->
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
