@@ -140,7 +140,7 @@ IT DOESN'T EVEN MATTER HOW LONG I HAVE TRIED*/
 	text-align: left;
 }
 
-.content {
+#content {
 	flex: 1; 
 	display: flex;
 	justify-content: center;
@@ -150,7 +150,7 @@ IT DOESN'T EVEN MATTER HOW LONG I HAVE TRIED*/
 	text-align: center;
 }
 
-.footer {
+#footer {
 	padding: 20px;
 	text-align: center;
 }
