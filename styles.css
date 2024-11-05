@@ -1,51 +1,41 @@
-/* Import Google Font (optional) */
+/* Import Google Font*/
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
-/* Font-face for local font files (if you have a custom font file) */
-/* Uncomment and update the path if using a local font file */
-/*
-@font-face {
-    font-family: 'CustomFont';
-    src: url('path/to/MyFont.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
-*/
 
 /* Base Styles */
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* mb remove? */
+    box-sizing: border-box;
 }
 
 body {
-    font-family: 'Poppins', sans-serif; /* Change to 'CustomFont' if using a local font */
-    background-color: #0d1b2a; /* Dark blue background */
-    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    background-color: #ffffff; 
+    color: #333333; 
     display: flex;
-	flex-direction: column;
-	min-height: 100vh; 
+    flex-direction: column;
+    min-height: 100vh;
     height: 100vh;
-    overflow: hidden;
+    overflow-y: auto; 
 }
 
-.page_text{
+.page_text {
     font-size: 1.2em;
     font-weight: 300;
     max-width: 600px;
-    color: #c5c6c7;
+    color: #666666; 
 }
 
 .container {
     display: flex;
-    flex-direction: row; 
-    margin: 0 30vh;
+    flex-direction: row;
+    margin: 0 10vw; 
+    flex-wrap: wrap;
 }
 
 .text-column {
-    flex: 2; 
-    padding: 10px;
+    flex: 1; 
+    padding: 20px;
     display: flex; 
     justify-content: center;
     align-items: center; 
@@ -56,18 +46,20 @@ body {
     flex: 1; 
     display: flex;
     flex-direction: column; 
-    gap: 10px; 
+    align-items: center;
+    gap: 15px; 
 }
 
 .media-item {
     position: relative; 
     display: flex;
     align-items: center;
-    gap: 10px;
     flex: 1; 
-    overflow: visible;
+    overflow: hidden;
     transition: transform 0.3s;
-    border-radius: 0 0 4px 4px;
+    border-radius: 8px;
+    max-width: 25vh; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
   
 .thumbnail {
@@ -76,20 +68,22 @@ body {
     object-fit: cover;       
     border-radius: 4px;       
     transition: transform 0.3s, box-shadow 0.3s;
+
 }
 
 .media-item:hover {
     transform: scale(1.05); /* scale entire thumbnail */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
 }
 
-/* FINALLY THIS ONE THING WORKS, I DON'T KNOW WHY, 
-IT DOESN'T EVEN MATTER HOW LONG I HAVE TRIED*/
+/* OK FINALLY THIS ONE THING WORKS, BUT I DO NOT KNOW WHY, 
+IT DOES NOT EVEN MATTER HOW HARD I HAVE TRIED */
 .overlay {
     position: absolute; /* OVERLAY WITHIN MEDIA ITEM */
-    bottom: 0; /* Align to the bottom */
-    left: 0; /* Align to the left */
-    right: 0; /* Stretch to the right */
-    background: rgba(0, 0, 0, 0.7); /* nice semi-transparent background */
+    bottom: 0; /* align to the bottom */
+    left: 0; /* align to the left */
+    right: 0; /* stretch to the right */
+    background: rgba(0, 0, 0, 0.2); /* lighter overlay background */
     color: #fff; /* white text color */
     padding: 5px; /* on all sides */
     text-align: center; 
@@ -98,8 +92,7 @@ IT DOESN'T EVEN MATTER HOW LONG I HAVE TRIED*/
     align-items: center; 
     justify-content: center; 
     transition: opacity 0.3s; /* smoooooth transition for opacity */
-    border-radius: 0 0 4px 4px; /* Match the border radius of the thumbnail */
-
+    border-radius: 0 0 4px 4px; /* match the border radius of the thumbnail */
 }
 
 .media-item:hover .overlay {
@@ -116,7 +109,7 @@ IT DOESN'T EVEN MATTER HOW LONG I HAVE TRIED*/
     }
 
     h1 {
-        font-size: 2em;
+        font-size: 2em; /* remove cause no h1's ? */
     }
 
     p {
@@ -129,29 +122,57 @@ IT DOESN'T EVEN MATTER HOW LONG I HAVE TRIED*/
     }
 }
 
-.footer_text{
+.footer_text {
     margin: 0; 
     line-height: 1.5;
     font-size: 0.875em;
-    color: #6c757d; 
+    color: #999999; 
     font-weight: 300;
 }
 
 #header {
-	padding: 20px;
-	text-align: left;
+    padding: 20px;
+    flex: 0 0 auto; /* fixed height ?*/
 }
 
 #content {
-	flex: 1; 
-	display: flex;
-	justify-content: center;
+    flex: 1; /* take up remaining space ?*/
+    display: flex;
+    justify-content: center;
     flex-direction: column;
-	align-items: center; 
-	text-align: center;
+    align-items: center;
+    text-align: center;
 }
 
 #footer {
-	padding: 20px;
-	text-align: center;
+    padding: 2vh;
+    text-align: center;
+    flex: 0 0 auto; /* fixed height ?*/
+    bottom: 0;
+    width: 100%;
+}
+
+/* REWORK TO CLASSES OR ID'S!!!!!!!!! */
+header {
+    padding: 0; 
+    margin: 0;
+    text-align: center;
+    background-color: #f8f9fa; 
+}
+
+nav {
+    display: flex;
+    justify-content: center; 
+    gap: 15px;
+}
+
+nav a {
+    color: #333333;
+    text-decoration: none; 
+    font-size: 1em; 
+    padding: 10px;
+}
+
+nav a:hover {
+    color: #b8b8b8;
 }
