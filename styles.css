@@ -28,14 +28,6 @@ body {
 	min-height: 100vh; 
 }
 
-/* Headings */
-h1 {
-    font-size: 2.5em;
-    font-weight: 600;
-    margin-bottom: 0.5em;
-    color: #e0e1dd;
-}
-
 .page_text{
     font-size: 1.2em;
     font-weight: 300;
@@ -71,63 +63,45 @@ h1 {
     align-items: center;
     gap: 10px;
     flex: 1; 
+    overflow: visible;
+    transition: transform 0.3s;
+    border-radius: 0 0 4px 4px;
 }
   
 .thumbnail {
-width: 100%;              
-height: auto;             
-object-fit: cover;       
-border-radius: 4px;       
-transition: transform 0.3s, box-shadow 0.3s;
-}
-  
-.thumbnail:hover {
-transform: scale(1.05);
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    width: 100%;              
+    height: auto;             
+    object-fit: cover;       
+    border-radius: 4px;       
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.our_button{
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 1em;
-    font-weight: 400;
-    width: 100%;
-    color: #0d1b2a;
-    background-color: #e0e1dd;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.media-item:hover {
+    transform: scale(1.05); /* scale entire thumbnail */
 }
 
-.our_button:hover {
-    background-color: #a9b7c6;
-}
-
-.footer_text{
-    margin: 0; 
-    line-height: 1.5;
-    font-size: 0.875em;
-    color: #6c757d; 
-    font-weight: 300;
-}
-
-/* okay this thing is kinda complex, but seems working*/
+/* FINALLY THIS ONE THING WORKS, I DON'T KNOW WHY, 
+IT DOESN'T EVEN MATTER HOW LONG I HAVE TRIED*/
 .overlay {
     position: absolute; /* OVERLAY WITHIN MEDIA ITEM */
     bottom: 0; /* Align to the bottom */
     left: 0; /* Align to the left */
     right: 0; /* Stretch to the right */
-    background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
-    color: #fff; /* White text color */
-    padding: 10px; /* Padding around the text */
+    background: rgba(0, 0, 0, 0.7); /* nice semi-transparent background */
+    color: #fff; /* white text color */
+    padding: 5px; /* on all sides */
     text-align: center; 
-    opacity: 0; /* overlay hidden at first */
-    transition: opacity 0.3s; /* some smoothing */
+    opacity: 0; /* OVERLAY HIDDEN AT FIRST! */
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    transition: opacity 0.3s; /* smoooooth transition for opacity */
     border-radius: 0 0 4px 4px; /* Match the border radius of the thumbnail */
+
 }
 
 .media-item:hover .overlay {
-    opacity: 1; /* Show the overlay on hover */
+    opacity: 1; /* show the overlay on hover */
 }
 
 @media (max-width: 768px) {
@@ -151,6 +125,14 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         font-size: 0.9em;
         padding: 8px 16px;
     }
+}
+
+.footer_text{
+    margin: 0; 
+    line-height: 1.5;
+    font-size: 0.875em;
+    color: #6c757d; 
+    font-weight: 300;
 }
 
 #header {
