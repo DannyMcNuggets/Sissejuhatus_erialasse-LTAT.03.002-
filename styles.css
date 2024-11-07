@@ -20,6 +20,8 @@ body {
 }
 
 .page_text {
+    flex: 2;
+    display: flex;
     font-size: 1.2em;
     font-weight: 300;
     max-width: 600px;
@@ -97,6 +99,15 @@ IT DOES NOT EVEN MATTER HOW HARD I HAVE TRIED */
 
 .media-item:hover .overlay {
     opacity: 1; /* show the overlay on hover */
+}
+
+.img_large {
+    display: flex;
+    max-width: 25vw;
+    border-radius: 8px;
+
+
+
 }
 
 @media (max-width: 768px) {
