@@ -47,11 +47,14 @@ function fetchAndInsertHTML(id, filepath, callback = null) {
 // Load the content based on the current URL
 function loadContent(callback) {
   let cleanedPath = window.location.pathname.replace(GLOBAL_PATH, ''); // Extract only the needed part from URL
-  console.log(`Current URL path is: ${window.location.pathname}`);
+  console.log(`CURRENT FILE PATH IS: ${window.location.pathname}`);
   console.log(`Cleaned path is: ${cleanedPath}`);
-  const filepath = cleanedPath === '' || cleanedPath === '/' ? 'contents/index.html' 
-    : `contents/${cleanedPath}`; // Determine the filepath based on the path
-  return fetchAndInsertHTML('content', filepath, callback);
+  if (cleanedPath === '' || cleanedPath === '/' || cleanedPath === '/index.html') {
+    return fetchAndInsertHTML('content', 'contents/index.html', callback);
+  }
+  else { 
+    return fetchAndInsertHTML('content', `contents/${cleanedPath}`, callback);
+  }
 }
 
 // Find and load all nested HTML elements
@@ -70,9 +73,8 @@ function loadNested() {
 
 // Handle new URL 
 function navigateTo(url) { 
-  history.pushState(null, '', url); // Update the URL
   console.log(`Navigating to ${url}`);
-  loadContent(addEventListeners)
+  fetchAndInsertHTML('content', url, addEventListeners)
     .then(() => checkLoadImages()); // ensure images are checked after content is loaded
 }
 
@@ -84,7 +86,7 @@ function addEventListeners() {
     button.addEventListener('click', (event) => {
       console.log(`Button clicked with target URL: ${targetUrl}`);
       event.preventDefault(); // Prevent the default link behavior
-      navigateTo(targetUrl); // Navigate to the target URL when the button is clicked
+      navigateTo(`contents/${targetUrl}`); // Navigate to the target URL when the button is clicked
     });
   });
 }
@@ -138,5 +140,4 @@ window.addEventListener('DOMContentLoaded', () => {
     .then(() => checkLoadElements())
     .then(() => addEventListeners());
 
-  // make sure that Events are added when navigating back and forth, mb not needed, needs testing tbh
 });
