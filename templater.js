@@ -24,7 +24,7 @@ function fetchAndProcessHTML(filepath) {
       });
 
       return Promise.all(fetchPromises).then(() => {
-        addEventListeners(); // Add button behaviour 
+        //addEventListeners(); // Add button behaviour 
         return tempDiv.innerHTML; // Return the processed HTML
       });
     })
@@ -53,10 +53,13 @@ function fetchAndInsertHTML(id, filepath, callback = null) {
   return fetchAndProcessHTML(filepath)
     .then(data => {
       document.getElementById(id).innerHTML = data; // Insert the processed HTML
+    /*
       if (callback) callback(); // Call the addEventListener for buttons if provided
     })
     .catch(error => {
       console.error(`Error in 'fetchAndInsertHTML' fetching ${filepath}:`, error);
+    });
+    */
     });
 }
 
@@ -88,7 +91,7 @@ function addEventListeners() {
     button.addEventListener('click', (event) => {
       console.log(`Button clicked with target URL: ${targetUrl}`);
       event.preventDefault(); // Prevent the default link behavior
-      console.log(window.location.href);
+      console.log(`PUSHED TO HISTORY: ${window.location.href}`);
       history.pushState({}, "", window.location.href);
       navigateTo(`contents/${targetUrl}`); // Navigate to the target URL when the button is clicked
     });
