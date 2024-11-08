@@ -1,21 +1,18 @@
 const GLOBAL_PATH = '~krivko/sissejuhatus/'; // set according to constant URL
 
-// Fetch the element and recursivly process nested HTML elements
+// Fetch the element and recursively process nested HTML elements
 function fetchAndProcessHTML(filepath) {
   return fetch(filepath) // Fetch the content of the HTML file, process as promise
-
     .then(response => {
       if (!response.ok) {
         throw new Error(`Failed to load ${filepath}: ${response.statusText}`);
       }
       return response.text(); // Read the response as text
     })
-
     .then(data => { 
       const tempDiv = document.createElement('div'); // put the HTML from response into a temporary div
       tempDiv.innerHTML = data; 
       const nestedElements = tempDiv.querySelectorAll('[nested-html]'); 
-       
       const fetchPromises = Array.from(nestedElements).map(element => { 
         const nestedFilepath = element.getAttribute('nested-html');
         return fetchAndProcessHTML(`contents/${nestedFilepath.substring(1)}`).then(nestedData => { 
@@ -30,7 +27,6 @@ function fetchAndProcessHTML(filepath) {
         return tempDiv.innerHTML; // Return the processed HTML
       });
     })
-
     .catch(error => {
       console.error(`Error in 'fetchAndProcessHTML' fetching ${filepath}:`, error);
     });
@@ -38,7 +34,7 @@ function fetchAndProcessHTML(filepath) {
 
 // Load an HTML component and insert it into a placeholder
 function fetchAndInsertHTML(id, filepath, callback = null) {
-  fetchAndProcessHTML(filepath)
+  return fetchAndProcessHTML(filepath)
     .then(data => {
       document.getElementById(id).innerHTML = data; // Insert the processed HTML
       if (callback) callback(); // Call the addEventListener for buttons if provided
@@ -55,51 +51,92 @@ function loadContent(callback) {
   console.log(`Cleaned path is: ${cleanedPath}`);
   const filepath = cleanedPath === '' || cleanedPath === '/' ? 'contents/index.html' 
     : `contents/${cleanedPath}`; // Determine the filepath based on the path
-  fetchAndInsertHTML('content', filepath, callback);
+  return fetchAndInsertHTML('content', filepath, callback);
 }
 
 // Find and load all nested HTML elements
 function loadNested() {
   const nestedElements = document.querySelectorAll('[nested-html]');
-  nestedElements.forEach(element => {
+  const fetchPromises = Array.from(nestedElements).map(element => {
     const nestedFilepath = element.getAttribute('nested-html');
     console.log(`Nested filepath is: ${nestedFilepath}`);
     const filepath = `contents/${nestedFilepath.substring(1)}`;
-    fetchAndProcessHTML(filepath).then(data => {
+    return fetchAndProcessHTML(filepath).then(data => {
       element.innerHTML = data; // Finally insert the nested HTML into the element
     });
   });
+  return Promise.all(fetchPromises);
 }
 
 // Handle new URL 
 function navigateTo(url) { 
   history.pushState(null, '', url); // Update the URL
   console.log(`Navigating to ${url}`);
-  loadContent(addEventListeners); // Load the appropriate content
+  loadContent(addEventListeners)
+    .then(() => checkLoadImages()); // ensure images are checked after content is loaded
 }
 
 // Add page changing logic on clicks of buttons
 function addEventListeners() {
-  const buttons = document.querySelectorAll('[target-url]');
+  const buttons = document.querySelectorAll('[target-url]'); //used to be buttons, but can be assigned to any element
   buttons.forEach(button => {
     const targetUrl = button.getAttribute('target-url'); 
     button.addEventListener('click', (event) => {
       console.log(`Button clicked with target URL: ${targetUrl}`);
-      event.preventDefault(); // Prevent the default link behavior. For some reason it works better :/
+      event.preventDefault(); // Prevent the default link behavior
       navigateTo(targetUrl); // Navigate to the target URL when the button is clicked
     });
   });
 }
 
+// thank StackOverflow for making this possible
+function checkLoadImages() {
+  console.log("checkLoadImages is fired");
+  const containers = document.querySelectorAll('.container');
+  containers.forEach(container => {
+      const images = Array.from(container.querySelectorAll('.image')); // Select all images within the container
+      const incompleteImages = images.filter(img => !img.complete);
+      const imagePromises = incompleteImages.map(img => new Promise(resolve => {
+          img.onload = img.onerror = resolve;
+      }));
+
+      Promise.all(imagePromises).then(() => {
+          console.log('images finished loading');
+          console.log(`Total images: ${images.length}`);
+
+          // and after evrything is loaded, show the container
+          setTimeout(() => {
+              container.style.opacity = '1';
+          }, 50); // small delay to ensure transition is applied
+      });
+  });
+}
+
+// give delay for header and footer to take their place before showing them. 
+// idk, could not figure out better sollution... 
+function checkLoadElements() {
+  const elements = ['#header', '#footer'];
+  elements.forEach(selector => {
+    const element = document.querySelector(selector);
+    if (element) {
+      setTimeout(() => {
+        element.style.opacity = '1';
+      }, 50); // small delay to ensure transition is applied
+    }
+  });
+}
+
+
 // Load the header and content when the page loads
 window.addEventListener('DOMContentLoaded', () => {
   console.log('DOM fully loaded and parsed');
-  fetchAndInsertHTML('header', 'header.html', addEventListeners) 
-  loadContent(addEventListeners); 
-  fetchAndInsertHTML('footer', 'footer.html', addEventListeners); 
+  fetchAndInsertHTML('header', 'header.html') // start chain of promises to ensure elements will be loaded when next one refers to them
+    .then(() => loadContent())
+    .then(() => fetchAndInsertHTML('footer', 'footer.html'))
+    .then(() => loadNested())
+    .then(() => checkLoadImages())
+    .then(() => checkLoadElements())
+    .then(() => addEventListeners());
 
-  loadNested();
-
-  // Invoke loadContent when the back/forward buttons are clicked or history changes as it may change
-  window.addEventListener('popstate', () => loadContent(addEventListeners));
+  // make sure that Events are added when navigating back and forth, mb not needed, needs testing tbh
 });
