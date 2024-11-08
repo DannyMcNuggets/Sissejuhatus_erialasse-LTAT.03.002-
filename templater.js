@@ -12,6 +12,7 @@ function fetchAndProcessHTML(filepath) {
     .then(data => { 
       const tempDiv = document.createElement('div'); // put the HTML from response into a temporary div
       tempDiv.innerHTML = data; 
+
       const nestedElements = tempDiv.querySelectorAll('[nested-html]'); 
       const fetchPromises = Array.from(nestedElements).map(element => { 
         const nestedFilepath = element.getAttribute('nested-html');
@@ -31,6 +32,21 @@ function fetchAndProcessHTML(filepath) {
       console.error(`Error in 'fetchAndProcessHTML' fetching ${filepath}:`, error);
     });
 }
+
+/* Okay so this is not needed anymore actually. keep just in case, remove later
+function loadNested() {
+  const nestedElements = document.querySelectorAll('[nested-html]');
+  const fetchPromises = Array.from(nestedElements).map(element => {
+    const nestedFilepath = element.getAttribute('nested-html');
+    console.log(`Nested filepath is: ${nestedFilepath}`);
+    const filepath = `contents/${nestedFilepath.substring(1)}`;
+    return fetchAndProcessHTML(filepath).then(data => {
+      element.innerHTML = data; // Finally insert the nested HTML into the element
+    });
+  });
+  return Promise.all(fetchPromises);
+}
+*/
 
 // Load an HTML component and insert it into a placeholder
 function fetchAndInsertHTML(id, filepath, callback = null) {
@@ -57,20 +73,6 @@ function loadContent(callback) {
   }
 }
 
-// Find and load all nested HTML elements
-function loadNested() {
-  const nestedElements = document.querySelectorAll('[nested-html]');
-  const fetchPromises = Array.from(nestedElements).map(element => {
-    const nestedFilepath = element.getAttribute('nested-html');
-    console.log(`Nested filepath is: ${nestedFilepath}`);
-    const filepath = `contents/${nestedFilepath.substring(1)}`;
-    return fetchAndProcessHTML(filepath).then(data => {
-      element.innerHTML = data; // Finally insert the nested HTML into the element
-    });
-  });
-  return Promise.all(fetchPromises);
-}
-
 // Handle new URL 
 function navigateTo(url) { 
   console.log(`Navigating to ${url}`);
@@ -86,6 +88,8 @@ function addEventListeners() {
     button.addEventListener('click', (event) => {
       console.log(`Button clicked with target URL: ${targetUrl}`);
       event.preventDefault(); // Prevent the default link behavior
+      console.log(window.location.href);
+      history.pushState({}, "", window.location.href);
       navigateTo(`contents/${targetUrl}`); // Navigate to the target URL when the button is clicked
     });
   });
@@ -129,15 +133,25 @@ function checkLoadElements() {
 }
 
 
-// Load the header and content when the page loads
-window.addEventListener('DOMContentLoaded', () => {
-  console.log('DOM fully loaded and parsed');
-  fetchAndInsertHTML('header', 'header.html') // start chain of promises to ensure elements will be loaded when next one refers to them
+// page loader
+function loadPageComponents() {
+  return fetchAndInsertHTML('header', 'header.html')
     .then(() => loadContent())
     .then(() => fetchAndInsertHTML('footer', 'footer.html'))
-    .then(() => loadNested())
+    //.then(() => loadNested())
     .then(() => checkLoadImages())
     .then(() => checkLoadElements())
     .then(() => addEventListeners());
+}
 
+// on new page load 
+window.addEventListener('DOMContentLoaded', () => {
+  console.log('DOM fully loaded and parsed');
+  loadPageComponents();
+});
+
+// on back/forward button click
+window.addEventListener('popstate', () => {
+  console.log('popstate event fired');
+  loadPageComponents();
 });
