@@ -35,15 +35,21 @@ body {
     flex-direction: row;
     margin: 0 10vw; 
     flex-wrap: wrap;
+    gap: 5vw; 
 }
 
 .text-column {
     flex: 1; 
-    padding: 20px;
     display: flex; 
     justify-content: center;
     align-items: center; 
     text-align: center;
+}
+
+.text-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .button-column {
@@ -106,7 +112,8 @@ IT DOES NOT EVEN MATTER HOW HARD I HAVE TRIED */
 
 .img_large {
     display: flex;
-    max-width: 10vw;
+    max-width: 20vw;
+    height: auto;
     border-radius: 8px;
 }
 
