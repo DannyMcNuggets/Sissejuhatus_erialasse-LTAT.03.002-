@@ -117,7 +117,7 @@ IT DOES NOT EVEN MATTER HOW HARD I HAVE TRIED */
     border-radius: 8px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
     .container {
         flex-direction: column; /* collapse row into column on narrow screen */
     }
@@ -137,6 +137,10 @@ IT DOES NOT EVEN MATTER HOW HARD I HAVE TRIED */
     .our_button {
         font-size: 0.9em;
         padding: 8px 16px;
+    }
+
+    .img_large {
+        max-width: 70vw;
     }
 }
 
