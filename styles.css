@@ -86,7 +86,7 @@ body {
 
 .media-item:hover {
     cursor: pointer;
-    transform: translateY(-5px);
+    transform: translateY(-5px); /* mb transform: scale(1.05); ? */
     box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
 }
 
@@ -171,6 +171,8 @@ body {
 }
 
 #footer {
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
     padding: 2vh;
     text-align: center;
     flex: 0 0 auto;
@@ -204,3 +206,29 @@ nav a:hover {
     background-color: #f0f0f0;
     border-radius: 6px;
 }
+
+#credits {
+    font-family: Arial, sans-serif;
+    max-width: 70vw;
+    margin: 0 auto;
+    color: #333;
+    line-height: 1.6;
+    text-align: center;
+  }
+  
+  /* replace with class later */
+  #credits p {
+    margin: 5vw;
+  }
+  
+  .contact-link {
+    color: #007acc;
+    font-weight: bold;
+  }
+  
+  .contact-link:hover {
+    color: #005f99;
+    text-decoration: underline;
+  }
+
+    
