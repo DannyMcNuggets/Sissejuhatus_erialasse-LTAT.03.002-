@@ -69,10 +69,9 @@ function loadContent(callback) {
   console.log(`CURRENT FILE PATH IS: ${window.location.pathname}`);
   console.log(`Cleaned path is: ${cleanedPath}`);
   if (cleanedPath === '' || cleanedPath === '/' || cleanedPath === '/index.html') {
-    return fetchAndInsertHTML('content', 'contents/index.html', callback);
-  }
-  else { 
-    return fetchAndInsertHTML('content', `contents/${cleanedPath}`, callback);
+    return fetchAndInsertHTML('content', `contents/index.html`, callback);
+  } else { 
+    return fetchAndInsertHTML('content', `contents${cleanedPath}`, callback);
   }
 }
 
