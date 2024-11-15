@@ -79,7 +79,8 @@ function loadContent(callback) {
 function navigateTo(url) { 
   console.log(`Navigating to ${url}`);
   fetchAndInsertHTML('content', url, addEventListeners)
-    .then(() => checkLoadImages()); // ensure images are checked after content is loaded
+    .then(() => checkLoadImages())
+    .then(() => updateActiveLink());
 }
 
 // Add page changing logic on clicks of buttons
@@ -134,16 +135,66 @@ function checkLoadElements() {
   });
 }
 
+function addHoverEffects() {
+    const mediaItems = document.querySelectorAll('.media-item');
+    
+    mediaItems.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            const type = item.getAttribute('data-type');
+            let color;
+            
+            switch(type) {
+                case 'book':
+                    color = 'rgba(18, 225, 147, 0.3)';
+                    break;
+                case 'movie':
+                    color = 'rgba(40, 40, 40, 0.7)';
+                    break;
+                case 'music':
+                    color = 'rgba(65, 105, 225, 0.1)';
+                    break;
+                default:
+                    color = 'transparent';
+            }
+            
+            document.body.style.backgroundColor = color;
+        });
+        
+        item.addEventListener('mouseleave', () => {
+            document.body.style.backgroundColor = '#fafafa';
+        });
+    });
+}
 
-// page loader
+function updateActiveLink() {
+    const currentPath = window.location.pathname;
+    const links = document.querySelectorAll('.navigation a');
+    
+    links.forEach(link => {
+        // Remove active class from all links
+        link.classList.remove('active');
+        
+        // Get the href path
+        const href = link.getAttribute('href');
+        
+        // Check if this is the current page
+        if (currentPath.endsWith(href) || 
+            (currentPath.endsWith('/') && href === 'index.html') ||
+            (currentPath.endsWith('sissejuhatus/') && href === 'index.html')) {
+            link.classList.add('active');
+        }
+    });
+}
+
 function loadPageComponents() {
-  return fetchAndInsertHTML('header', 'header.html')
-    .then(() => loadContent())
-    .then(() => fetchAndInsertHTML('footer', 'footer.html'))
-    //.then(() => loadNested())
-    .then(() => checkLoadImages())
-    .then(() => checkLoadElements())
-    .then(() => addEventListeners());
+    return fetchAndInsertHTML('header', 'header.html')
+        .then(() => loadContent())
+        .then(() => fetchAndInsertHTML('footer', 'footer.html'))
+        .then(() => checkLoadImages())
+        .then(() => checkLoadElements())
+        .then(() => addEventListeners())
+        .then(() => addHoverEffects())
+        .then(() => updateActiveLink());
 }
 
 // on new page load 
