@@ -1,5 +1,15 @@
 const GLOBAL_PATH = '~krivko/sissejuhatus/'; // set according to constant URL
 
+// set colors easily in globals? 
+const COLORS = {
+  book: 'rgba(18, 225, 147, 0.3)',
+  movie: 'rgba(40, 40, 40, 0.7)',
+  music: 'rgba(65, 105, 225, 0.1)',
+  default: '#fafafa',
+  // default: 'transparent',
+  // reset: '#fafafa' // not needed anymore?
+}
+
 // Fetch the element and recursively process nested HTML elements
 function fetchAndProcessHTML(filepath) {
   return fetch(filepath) // Fetch the content of the HTML file, process as promise
@@ -24,7 +34,7 @@ function fetchAndProcessHTML(filepath) {
       });
 
       return Promise.all(fetchPromises).then(() => {
-        //addEventListeners(); // Add button behaviour 
+        //addEventListeners(); // add button behaviour 
         return tempDiv.innerHTML; // Return the processed HTML
       });
     })
@@ -65,8 +75,8 @@ function fetchAndInsertHTML(id, filepath, callback = null) {
 
 // Load the content based on the current URL
 function loadContent(callback) {
+  console.log(`Full FILE PATH is: ${window.location.pathname}`);
   let cleanedPath = window.location.pathname.replace(GLOBAL_PATH, ''); // Extract only the needed part from URL
-  console.log(`CURRENT FILE PATH IS: ${window.location.pathname}`);
   console.log(`Cleaned path is: ${cleanedPath}`);
   if (cleanedPath === '' || cleanedPath === '/' || cleanedPath === '/index.html') {
     return fetchAndInsertHTML('content', `contents/index.html`, callback);
@@ -135,12 +145,13 @@ function checkLoadElements() {
   });
 }
 
+/* 
 function addHoverEffects() {
     const mediaItems = document.querySelectorAll('.media-item');
     
     mediaItems.forEach(item => {
         item.addEventListener('mouseenter', () => {
-            const type = item.getAttribute('data-type');
+            const type = item.getAttribute('color_code');
             let color;
             
             switch(type) {
@@ -165,25 +176,53 @@ function addHoverEffects() {
         });
     });
 }
+*/
 
+// isnt quicker and easier? + colors are up in globals, so easy to change
+function addHoverEffects() {
+  document.querySelectorAll('.media-item').forEach(item => {
+    item.addEventListener('mouseenter', () => {
+      document.body.style.backgroundColor = COLORS[item.getAttribute('color_code')] || COLORS.default;
+    });
+    item.addEventListener('mouseleave', () => {
+      document.body.style.backgroundColor = COLORS.default;
+    });
+  });
+}
+
+/* 
 function updateActiveLink() {
     const currentPath = window.location.pathname;
     const links = document.querySelectorAll('.navigation a');
-    
     links.forEach(link => {
         // Remove active class from all links
         link.classList.remove('active');
-        
+
         // Get the href path
         const href = link.getAttribute('href');
         
         // Check if this is the current page
         if (currentPath.endsWith(href) || 
             (currentPath.endsWith('/') && href === 'index.html') ||
-            (currentPath.endsWith('sissejuhatus/') && href === 'index.html')) {
+            (currentPath.endsWith('sissejuhatus/') && href === 'index.html')) { // isnt too much conditions...?
             link.classList.add('active');
         }
     });
+}
+*/
+
+// quicker version?
+function updateActiveLink() { 
+  let currentPath = window.location.pathname.replace(GLOBAL_PATH, ''); 
+  currentPath = (currentPath === '/') ? '/index.html' : currentPath; 
+  console.log(`updateActiveLink currentPath is: ${currentPath}`);
+  //dont iterate forEach, exit once condition is met
+  for (let link of document.querySelectorAll('.navigation a')) {
+    if (currentPath.endsWith(link.getAttribute('href'))) {
+        link.classList.add('active');
+        return; 
+    }
+  }
 }
 
 function loadPageComponents() {
