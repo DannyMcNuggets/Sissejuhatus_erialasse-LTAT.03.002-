@@ -180,6 +180,7 @@ function addHoverEffects() {
 
 // isnt quicker and easier? + colors are up in globals, so easy to change
 function addHoverEffects() {
+  document.body.style.backgroundColor = COLORS.default; // desired behaviour? 
   document.querySelectorAll('.media-item').forEach(item => {
     item.addEventListener('mouseenter', () => {
       document.body.style.backgroundColor = COLORS[item.getAttribute('color_code')] || COLORS.default;
