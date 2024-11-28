@@ -17,7 +17,7 @@ function fetchAndProcessHTML(filepath) {
       if (!response.ok) {
         throw new Error(`Failed to load ${filepath}: ${response.statusText}`);
       }
-      return response.text(); // Read the response as text
+      return response.text(); // read the response as text
     })
     .then(data => { 
       const tempDiv = document.createElement('div'); // put the HTML from response into a temporary div
@@ -34,7 +34,6 @@ function fetchAndProcessHTML(filepath) {
       });
 
       return Promise.all(fetchPromises).then(() => {
-        //addEventListeners(); // add button behaviour 
         return tempDiv.innerHTML; // Return the processed HTML
       });
     })
@@ -59,17 +58,10 @@ function loadNested() {
 */
 
 // Load an HTML component and insert it into a placeholder
-function fetchAndInsertHTML(id, filepath, callback = null) {
+function fetchAndInsertHTML(id, filepath) {
   return fetchAndProcessHTML(filepath)
     .then(data => {
       document.getElementById(id).innerHTML = data; // Insert the processed HTML
-    /*
-      if (callback) callback(); // Call the addEventListener for buttons if provided
-    })
-    .catch(error => {
-      console.error(`Error in 'fetchAndInsertHTML' fetching ${filepath}:`, error);
-    });
-    */
     });
 }
 
