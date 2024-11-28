@@ -24,32 +24,35 @@ body {
     color: #4a4a4a;
     display: flex;
     flex: 2;
-    flex-wrap: wrap; /* Allow text to wrap */
+    flex-wrap: wrap; 
     font-size: 1.1em;
     font-weight: 300;
     line-height: 1.6;
     max-width: 800px;
+    margin: 0; 
+    padding: 0; 
 }
 
 .container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 3rem;
-    margin: 0 auto;
-    max-width: 90vw;
+    justify-content: center;
+    align-items: center;
+    justify-content: center; 
+    /* border: 1px solid red;  testimiseks */
     opacity: 0;
-    padding: 0 2rem;
-    position: relative;
-    transition: all 0.4s ease;
+    transition: opacity 1s ease-in-out;
+    gap: 1rem;
 }
 
 .text-column {
-    align-items: center;
-    display: flex;
-    flex: 1;
-    justify-content: center;
-    text-align: center;
+    /* border: 1px solid green;  testimiseks */
+    flex: 2;
+    margin: 0; 
+    padding: 0; 
+    justify-content: left;
+    align-items: left;
 }
 
 .text-container {
@@ -59,11 +62,16 @@ body {
 }
 
 .button-column {
-    align-items: center;
-    display: flex;
     flex: 1;
+    /* border: 1px solid blue; testimiseks */
+    display: flex;
     flex-direction: column;
-    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem; 
+    flex: 1;
+    margin: 0;
 }
 
 .media-item {
@@ -117,15 +125,16 @@ body {
 .img_large {
     border-radius: 8px;
     display: flex;
-    flex: 1; /* Make image responsive */
+    flex: 1; 
     height: auto;
     max-width: 20vw;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 960px) {
 
     .container {
         flex-direction: column;
+        padding: 0 2rem;
     }
     
     .text-column, .button-column {
@@ -145,18 +154,19 @@ body {
         padding: 8px 16px;
     }
 
-    .img_large {
-        max-width: 20vw;
+    .page_text {
+        font-size: 1em;
     }
 }
 
-@media (max-width: 768px) {
-    .text-container-media {
-        flex-direction: column;
+@media (max-width: 600px) {
+
+    .img_large {
+        max-width: 60vw;
     }
-    
-    .image-container {
-        margin-top: 2rem;
+
+    .page_text {
+        font-size: 0.9em;
     }
 }
 
@@ -193,6 +203,8 @@ body {
     padding: 2vh;
     text-align: center;
     width: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
 }
 
 header {
@@ -296,6 +308,7 @@ nav a.active::after {
     z-index: 1;
 }
 
+/* not used anymore
 .media-item[data-type="book"]:hover ~ .container::before {
     background-color: rgba(205, 170, 125, 0.1);
 }
@@ -307,6 +320,7 @@ nav a.active::after {
 .media-item[data-type="music"]:hover ~ .container::before {
     background-color: rgba(65, 105, 225, 0.1);
 }
+*/
 
 .navigation {
     display: flex;
