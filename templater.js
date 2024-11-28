@@ -2,8 +2,8 @@ const GLOBAL_PATH = '~krivko/sissejuhatus/'; // set according to constant URL
 
 // set colors easily in globals? 
 const COLORS = {
-  book: 'rgba(18, 225, 147, 0.3)',
-  movie: 'rgba(40, 40, 40, 0.7)',
+  book: 'rgba(18, 225, 147, 0.2)',
+  movie: 'rgba(40, 40, 40, 0.3)',
   music: 'rgba(65, 105, 225, 0.1)',
   default: '#fafafa',
   // default: 'transparent',
