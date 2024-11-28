@@ -137,39 +137,6 @@ function checkLoadElements() {
   });
 }
 
-/* 
-function addHoverEffects() {
-    const mediaItems = document.querySelectorAll('.media-item');
-    
-    mediaItems.forEach(item => {
-        item.addEventListener('mouseenter', () => {
-            const type = item.getAttribute('color_code');
-            let color;
-            
-            switch(type) {
-                case 'book':
-                    color = 'rgba(18, 225, 147, 0.3)';
-                    break;
-                case 'movie':
-                    color = 'rgba(40, 40, 40, 0.7)';
-                    break;
-                case 'music':
-                    color = 'rgba(65, 105, 225, 0.1)';
-                    break;
-                default:
-                    color = 'transparent';
-            }
-            
-            document.body.style.backgroundColor = color;
-        });
-        
-        item.addEventListener('mouseleave', () => {
-            document.body.style.backgroundColor = '#fafafa';
-        });
-    });
-}
-*/
-
 // isnt quicker and easier? + colors are up in globals, so easy to change
 function addHoverEffects() {
   document.body.style.backgroundColor = COLORS.default; // desired behaviour? 
