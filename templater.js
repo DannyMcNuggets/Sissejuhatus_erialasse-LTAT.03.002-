@@ -150,27 +150,6 @@ function addHoverEffects() {
   });
 }
 
-/* 
-function updateActiveLink() {
-    const currentPath = window.location.pathname;
-    const links = document.querySelectorAll('.navigation a');
-    links.forEach(link => {
-        // Remove active class from all links
-        link.classList.remove('active');
-
-        // Get the href path
-        const href = link.getAttribute('href');
-        
-        // Check if this is the current page
-        if (currentPath.endsWith(href) || 
-            (currentPath.endsWith('/') && href === 'index.html') ||
-            (currentPath.endsWith('sissejuhatus/') && href === 'index.html')) { // isnt too much conditions...?
-            link.classList.add('active');
-        }
-    });
-}
-*/
-
 // quicker version?
 function updateActiveLink() { 
   let currentPath = window.location.pathname.replace(GLOBAL_PATH, ''); 
