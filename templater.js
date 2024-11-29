@@ -66,8 +66,8 @@ function addEventListeners() {
 
       history.pushState({}, "", window.location.href); // Fake avalehe push ajaloosse, et brauseri "tagasi"/"edasi" nuppe õigesti käsitleda
 
-      console.log(`Navigating to contents/${targetUrl}`);
-      fetchAndProcessHTML(`contents/${targetUrl}`, 'content')
+      console.log(`Navigating to contents/${targetUrl}`); 
+      fetchAndProcessHTML(`contents/${targetUrl}`, 'content') // Laeme uus sisu
         .then(() => checkLoadImages())
     });
   });
