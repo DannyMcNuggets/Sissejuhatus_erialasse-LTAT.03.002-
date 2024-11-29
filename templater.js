@@ -18,7 +18,7 @@ function fetchAndProcessHTML(filepath, id = null) {
       return response.text(); // loe response tekstina
     })
     .then(data => { 
-      const tempDiv = document.createElement('div'); // pane vastusest saadud HTML ajutisse div-i
+      const tempDiv = document.createElement('div'); // pane response'st saadud HTML ajutisse div-i
       tempDiv.innerHTML = data; 
 
       const nestedElements = tempDiv.querySelectorAll('[nested-html]'); // kogu kõik pesastatud HTML elemendid
@@ -33,9 +33,9 @@ function fetchAndProcessHTML(filepath, id = null) {
 
       return Promise.all(fetchPromises).then(() => {
         if (id) {
-          document.getElementById(id).innerHTML = tempDiv.innerHTML; // Insert the processed HTML
+          document.getElementById(id).innerHTML = tempDiv.innerHTML; // sisesta HTML vastavasse elementi
         }
-        return tempDiv.innerHTML; // return kogu HTML koos pesastatud elementidega
+        return tempDiv.innerHTML; // return kogu HTML koos nested elementidega
       });
     })
     .catch(error => {
@@ -73,7 +73,7 @@ function addEventListeners() {
   });
 }
 
-// Täname StackOverflow, et see osa lõpuks töötab
+// Täname StackOverflow, et see osa lõpuks töötab :)
 // Teeme pildid nähtavaks alles siis, kui need on täielikult laaditud
 function checkLoadImages() {
   console.log("checkLoadImages is fired");
@@ -129,12 +129,13 @@ function updateActiveLink() {
   let currentPath = window.location.pathname.replace(GLOBAL_PATH, ''); // eemalda globaalne path
   currentPath = (currentPath === '/') ? '/index.html' : currentPath; 
   console.log(`updateActiveLink currentPath is: ${currentPath}`);
-  for (let link of document.querySelectorAll('.navigation a')) {
+  for (let link of document.querySelectorAll('.navigation a')) { // kõik lingid asuvad navigatsioonis, kui klapib praegusega, siis ta on aktiivne
     if (currentPath.endsWith(link.getAttribute('href'))) {
         link.classList.add('active');
         return; 
     }
   }
+  console.error(`No matching navigation link found for path: ${currentPath}`);
 }
 
 // Lae kõik lehe komponendid
