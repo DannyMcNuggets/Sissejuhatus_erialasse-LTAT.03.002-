@@ -42,21 +42,6 @@ function fetchAndProcessHTML(filepath) {
     });
 }
 
-/* Okay so this is not needed anymore actually. keep just in case, remove later
-function loadNested() {
-  const nestedElements = document.querySelectorAll('[nested-html]');
-  const fetchPromises = Array.from(nestedElements).map(element => {
-    const nestedFilepath = element.getAttribute('nested-html');
-    console.log(`Nested filepath is: ${nestedFilepath}`);
-    const filepath = `contents/${nestedFilepath.substring(1)}`;
-    return fetchAndProcessHTML(filepath).then(data => {
-      element.innerHTML = data; // Finally insert the nested HTML into the element
-    });
-  });
-  return Promise.all(fetchPromises);
-}
-*/
-
 // Load an HTML component and insert it into a placeholder
 function fetchAndInsertHTML(id, filepath) {
   return fetchAndProcessHTML(filepath)
