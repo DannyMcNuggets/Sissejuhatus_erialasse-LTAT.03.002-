@@ -1,6 +1,6 @@
-const GLOBAL_PATH = '~krivko/sissejuhatus/'; // set according to constant URL
+const GLOBAL_PATH = '~krivko/sissejuhatus/'; // seadistage vastavalt teie lingile public_html-is
 
-// set colors easily in globals? 
+// taustavärvid
 const COLORS = {
   book: 'rgba(18, 225, 147, 0.2)',
   movie: 'rgba(40, 40, 40, 0.3)',
@@ -8,87 +8,78 @@ const COLORS = {
   default: '#fafafa',
 }
 
-// Fetch the element and recursively process nested HTML elements
-function fetchAndProcessHTML(filepath) {
-  return fetch(filepath) // Fetch the content of the HTML file, process as promise
+// Fetch element ja sisesta rekursiivselt kõik 'nested' HTML-elemente
+function fetchAndProcessHTML(filepath, id = null) {
+  return fetch(filepath) // Fetch HTML-faili sisu, töötle promise'na 
     .then(response => {
       if (!response.ok) {
         throw new Error(`Failed to load ${filepath}: ${response.statusText}`);
       }
-      return response.text(); // read the response as text
+      return response.text(); // loe response tekstina
     })
     .then(data => { 
-      const tempDiv = document.createElement('div'); // put the HTML from response into a temporary div
+      const tempDiv = document.createElement('div'); // pane vastusest saadud HTML ajutisse div-i
       tempDiv.innerHTML = data; 
 
-      const nestedElements = tempDiv.querySelectorAll('[nested-html]'); 
-      const fetchPromises = Array.from(nestedElements).map(element => { 
+      const nestedElements = tempDiv.querySelectorAll('[nested-html]'); // kogu kõik pesastatud HTML elemendid
+      const fetchPromises = Array.from(nestedElements).map(element => {  // tee kõikidele pesastatud elementidele fetch ja sisesta vastav HTML
         const nestedFilepath = element.getAttribute('nested-html');
         return fetchAndProcessHTML(`contents/${nestedFilepath.substring(1)}`).then(nestedData => { 
           element.innerHTML = nestedData; 
         }).catch(error => {
-          console.error(`Error in 'data' processing within nested HTML for ${nestedFilepath}:`, error);
+          console.error(`Error in 'data' processing within nested HTML for ${nestedFilepath}:`, error); // logi viga kui elementi ei eksisteeri
         });
       });
 
       return Promise.all(fetchPromises).then(() => {
-        return tempDiv.innerHTML; // Return the processed HTML
+        if (id) {
+          document.getElementById(id).innerHTML = tempDiv.innerHTML; // Insert the processed HTML
+        }
+        return tempDiv.innerHTML; // return kogu HTML koos pesastatud elementidega
       });
     })
     .catch(error => {
-      console.error(`Error in 'fetchAndProcessHTML' fetching ${filepath}:`, error);
+      console.error(`Error in 'fetchAndProcessHTML' fetching ${filepath}:`, error);  // logi viga kui fetch ei õnnestu
     });
 }
 
-// Load an HTML component and insert it into a placeholder
-function fetchAndInsertHTML(id, filepath) {
-  return fetchAndProcessHTML(filepath)
-    .then(data => {
-      document.getElementById(id).innerHTML = data; // Insert the processed HTML
-    });
-}
-
-// Load the content based on the current URL
-function loadContent(callback) {
+// Laadime sisu vastavalt praegusele URL-ile
+function loadContent() {
   console.log(`Full FILE PATH is: ${window.location.pathname}`);
-  let cleanedPath = window.location.pathname.replace(GLOBAL_PATH, ''); // Extract only the needed part from URL
+  let cleanedPath = window.location.pathname.replace(GLOBAL_PATH, ''); 
   console.log(`Cleaned path is: ${cleanedPath}`);
   if (cleanedPath === '' || cleanedPath === '/' || cleanedPath === '/index.html') {
-    return fetchAndInsertHTML('content', `contents/index.html`, callback);
+    return fetchAndProcessHTML(`contents/index.html`, 'content');
   } else { 
-    return fetchAndInsertHTML('content', `contents${cleanedPath}`, callback);
+    return fetchAndProcessHTML(`contents${cleanedPath}`, 'content');
   }
 }
 
-// Handle new URL 
-function navigateTo(url) { 
-  console.log(`Navigating to ${url}`);
-  fetchAndInsertHTML('content', url, addEventListeners)
-    .then(() => checkLoadImages())
-    .then(() => updateActiveLink());
-}
-
-// Add page changing logic on clicks of buttons
+// Lisa lehe muutmise loogika nuppude klõpsamisel ja käsitle uut URL-i
 function addEventListeners() {
-  const buttons = document.querySelectorAll('[target-url]'); //used to be buttons, but can be assigned to any element
+  const buttons = document.querySelectorAll('[target-url]'); // Kogu kõik nupud, millel on 'target-url' atribuut
   buttons.forEach(button => {
     const targetUrl = button.getAttribute('target-url'); 
     button.addEventListener('click', (event) => {
       console.log(`Button clicked with target URL: ${targetUrl}`);
       event.preventDefault(); // Prevent the default link behavior
-      console.log(`PUSHED TO HISTORY: ${window.location.href}`);
-      history.pushState({}, "", window.location.href);
-      navigateTo(`contents/${targetUrl}`); // Navigate to the target URL when the button is clicked
+
+      history.pushState({}, "", window.location.href); // Fake avalehe push ajaloosse, et brauseri "tagasi"/"edasi" nuppe õigesti käsitleda
+
+      console.log(`Navigating to contents/${targetUrl}`);
+      fetchAndProcessHTML(`contents/${targetUrl}`, 'content')
+        .then(() => checkLoadImages())
     });
   });
 }
 
-// thank StackOverflow for making this possible
+// Täname StackOverflow, et see osa lõpuks töötab
+// Teeme pildid nähtavaks alles siis, kui need on täielikult laaditud
 function checkLoadImages() {
   console.log("checkLoadImages is fired");
   const containers = document.querySelectorAll('.container');
   containers.forEach(container => {
-      const images = Array.from(container.querySelectorAll('.image')); // Select all images within the container
+      const images = Array.from(container.querySelectorAll('.image')); 
       const incompleteImages = images.filter(img => !img.complete);
       const imagePromises = incompleteImages.map(img => new Promise(resolve => {
           img.onload = img.onerror = resolve;
@@ -98,31 +89,31 @@ function checkLoadImages() {
           console.log('images finished loading');
           console.log(`Total images: ${images.length}`);
 
-          // and after evrything is loaded, show the container
+          // ja pärast kõige laadimist, konteiner on nähtav
           setTimeout(() => {
               container.style.opacity = '1';
-          }, 50); // small delay to ensure transition is applied
+          }, 100); // väike viivitus, et tagada, et üleminekut rakendatakse
       });
   });
 }
 
-// give delay for header and footer to take their place before showing them. 
-// idk, could not figure out better sollution... 
+// Anna footer ja header kuvamiseks viivitus, et need saaksid oma koha võtta.
+// Ei tea, ei suutnud paremat lahendust välja mõelda...
 function checkLoadElements() {
   const elements = ['#header', '#footer'];
   elements.forEach(selector => {
     const element = document.querySelector(selector);
-    if (element) {
+    if (element) { // igaks juhuks kontrollime, kas element on olemas. vb mõnel lehel seda ei ole
       setTimeout(() => {
         element.style.opacity = '1';
-      }, 50); // small delay to ensure transition is applied
+      }, 50); 
     }
   });
 }
 
-// isnt quicker and easier? + colors are up in globals, so easy to change
+// Lisa background värvi muutus, kui nupp onhover, ja tagasi default, kui see ei ole
 function addHoverEffects() {
-  document.body.style.backgroundColor = COLORS.default; // desired behaviour? 
+  document.body.style.backgroundColor = COLORS.default;
   document.querySelectorAll('.media-item').forEach(item => {
     item.addEventListener('mouseenter', () => {
       document.body.style.backgroundColor = COLORS[item.getAttribute('color_code')] || COLORS.default;
@@ -133,12 +124,11 @@ function addHoverEffects() {
   });
 }
 
-// quicker version?
+// Näita praegust asukohta navbaris
 function updateActiveLink() { 
-  let currentPath = window.location.pathname.replace(GLOBAL_PATH, ''); 
+  let currentPath = window.location.pathname.replace(GLOBAL_PATH, ''); // eemalda globaalne path
   currentPath = (currentPath === '/') ? '/index.html' : currentPath; 
   console.log(`updateActiveLink currentPath is: ${currentPath}`);
-  //dont iterate forEach, exit once condition is met
   for (let link of document.querySelectorAll('.navigation a')) {
     if (currentPath.endsWith(link.getAttribute('href'))) {
         link.classList.add('active');
@@ -147,24 +137,25 @@ function updateActiveLink() {
   }
 }
 
+// Lae kõik lehe komponendid
 function loadPageComponents() {
-    return fetchAndInsertHTML('header', 'header.html')
-        .then(() => loadContent())
-        .then(() => fetchAndInsertHTML('footer', 'footer.html'))
-        .then(() => checkLoadImages())
-        .then(() => checkLoadElements())
-        .then(() => addEventListeners())
-        .then(() => addHoverEffects())
-        .then(() => updateActiveLink());
+    return fetchAndProcessHTML('header.html', 'header')
+      .then(() => loadContent())
+      .then(() => checkLoadImages())
+      .then(() => fetchAndProcessHTML('footer.html', 'footer'))
+      .then(() => checkLoadElements())
+      .then(() => addEventListeners())
+      .then(() => addHoverEffects())
+      .then(() => updateActiveLink());
 }
 
-// on new page load 
+// Kui DOM on täielikult laetud uuel lehel
 window.addEventListener('DOMContentLoaded', () => {
   console.log('DOM fully loaded and parsed');
   loadPageComponents();
 });
 
-// on back/forward button click
+// Kui kasutaja vajutab tagasi/edasi nuppu ja DOM ei tööta
 window.addEventListener('popstate', () => {
   console.log('popstate event fired');
   loadPageComponents();
