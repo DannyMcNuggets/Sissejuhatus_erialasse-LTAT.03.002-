@@ -6,8 +6,6 @@ const COLORS = {
   movie: 'rgba(40, 40, 40, 0.3)',
   music: 'rgba(65, 105, 225, 0.1)',
   default: '#fafafa',
-  // default: 'transparent',
-  // reset: '#fafafa' // not needed anymore?
 }
 
 // Fetch the element and recursively process nested HTML elements
