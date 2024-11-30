@@ -13,6 +13,9 @@ Projekti põhi HTML-fail.
 ### `about.html` ja `contacts.html`
 Lisa HTML-lehed
 
+### `styles.css`
+CSS stiilid.
+
 ### `templater.js`
 JavaScript-fail võimaldab sisu dünaamiliselt laadida ja rakendab mõned visuaalsed effektid.
 
@@ -39,9 +42,6 @@ Kui mingi HTML-element ei ole seotud URL-iga või lehe nimega, siis ikka asub va
 `index.html` võimaldab dünaamiliselt laadida `book.html` sisu, siis fail asub `contents/book.html`.
 
 Kõik `"nested-html"` elemendid asuvad samas kataloogis. 
-
-### `styles.css`
-CSS stiilid.
 
 ### `images/`
 Kataloog, mis sisaldab kõiki kasutatud pilte.
