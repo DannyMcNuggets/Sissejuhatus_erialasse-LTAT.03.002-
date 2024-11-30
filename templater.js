@@ -67,7 +67,7 @@ function addEventListeners() {
       history.pushState({}, "", window.location.href); // Fake avalehe push ajaloosse, et brauseri "tagasi"/"edasi" nuppe õigesti käsitleda
 
       console.log(`Navigating to contents/${targetUrl}`); 
-      fetchAndProcessHTML(`contents/${targetUrl}`, 'content') // Laeme uus sisu
+      fetchAndProcessHTML(`contents/${targetUrl}`, 'content') // Lae uus sisu
         .then(() => checkLoadImages())
     });
   });
@@ -139,15 +139,15 @@ function updateActiveLink() {
 }
 
 // Lae kõik lehe komponendid
-function loadPageComponents() {
-    return fetchAndProcessHTML('header.html', 'header')
-      .then(() => loadContent())
-      .then(() => checkLoadImages())
-      .then(() => fetchAndProcessHTML('footer.html', 'footer'))
-      .then(() => checkLoadElements())
-      .then(() => addEventListeners())
-      .then(() => addHoverEffects())
-      .then(() => updateActiveLink());
+function loadPageComponents() { 
+  return fetchAndProcessHTML('header.html', 'header') 
+    .then(() => loadContent()) 
+    .then(() => checkLoadImages()) 
+    .then(() => fetchAndProcessHTML('footer.html', 'footer')) 
+    .then(() => checkLoadElements()) 
+    .then(() => addEventListeners()) 
+    .then(() => addHoverEffects()) 
+    .then(() => updateActiveLink()); 
 }
 
 // Kui DOM on täielikult laetud uuel lehel
