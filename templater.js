@@ -77,7 +77,7 @@ function addEventListeners() {
 // Teeme pildid nähtavaks alles siis, kui need on täielikult laaditud
 function checkLoadImages() {
   console.log("checkLoadImages is fired");
-  const containers = document.querySelectorAll('.container');
+  const containers = document.querySelectorAll('#header, #content, #footer, .container'); // kõik konteinerid, kus pildid võivad olla
   containers.forEach(container => {
       const images = Array.from(container.querySelectorAll('.image')); 
       const incompleteImages = images.filter(img => !img.complete);
@@ -94,20 +94,6 @@ function checkLoadImages() {
               container.style.opacity = '1';
           }, 100); // väike viivitus, et tagada, et üleminekut rakendatakse
       });
-  });
-}
-
-// Anna footer ja header kuvamiseks viivitus, et need saaksid oma koha võtta.
-// Ei tea, ei suutnud paremat lahendust välja mõelda...
-function checkLoadElements() {
-  const elements = ['#header', '#footer'];
-  elements.forEach(selector => {
-    const element = document.querySelector(selector);
-    if (element) { // igaks juhuks kontrollime, kas element on olemas. vb mõnel lehel seda ei ole
-      setTimeout(() => {
-        element.style.opacity = '1';
-      }, 50); 
-    }
   });
 }
 
@@ -144,7 +130,6 @@ function loadPageComponents() {
     .then(() => loadContent()) 
     .then(() => checkLoadImages()) 
     .then(() => fetchAndProcessHTML('footer.html', 'footer')) 
-    .then(() => checkLoadElements()) 
     .then(() => addEventListeners()) 
     .then(() => addHoverEffects()) 
     .then(() => updateActiveLink()); 
