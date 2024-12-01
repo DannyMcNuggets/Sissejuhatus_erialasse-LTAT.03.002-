@@ -1,9 +1,5 @@
 # Sissejuhatus_erialasse-LTAT.03.002-
-Veebilehe rühmatöö
-
-## Kuidas testida
-1. `Live Server` laiendus Visual Studio Code jaoks
-2. Mine aadressile https://kodu.ut.ee/~krivko/sissejuhatus/index.html
+Veebilehe rühmatöö: https://kodu.ut.ee/~krivko/sissejuhatus/index.html
 
 ## Projekti struktuur
 
