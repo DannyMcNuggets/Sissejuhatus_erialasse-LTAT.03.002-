@@ -129,10 +129,13 @@ function loadPageComponents() {
   return fetchAndProcessHTML('header.html', 'header') 
     .then(() => loadContent()) 
     .then(() => checkLoadImages()) 
-    .then(() => fetchAndProcessHTML('footer.html', 'footer')) 
-    .then(() => addEventListeners()) 
-    .then(() => addHoverEffects()) 
-    .then(() => updateActiveLink()); 
+    .then(() => fetchAndProcessHTML('footer.html', 'footer'))
+    .then(() => {
+      // ei pea enam chainis olema
+      addEventListeners();
+      addHoverEffects();
+      updateActiveLink();
+    });
 }
 
 // Kui DOM on täielikult laetud uuel lehel
