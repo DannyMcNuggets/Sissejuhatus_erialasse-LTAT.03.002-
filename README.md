@@ -44,6 +44,3 @@ Kataloog, mis sisaldab kõiki kasutatud pilte.
 
 ## Dependencies
 - Puuduvad
-
-## Autorid
-- 
